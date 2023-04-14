@@ -8,6 +8,7 @@ import java.awt.Graphics2D;
 import javax.swing.JPanel;
 
 import entity.Player;
+import tile.TileManager;
 
 public class GamePanel extends JPanel implements Runnable { // this class inherites JPanel class
     // screen settings
@@ -15,14 +16,15 @@ public class GamePanel extends JPanel implements Runnable { // this class inheri
     final int scale = 3;
 
     public final int tileSize = originalTileSize * scale; // 48x48 tile // access from other pacakage public
-    final int maxScreenCol = 16;
-    final int maxScreenRow = 12;
-    final int screenWidth = tileSize * maxScreenCol; // 768 pixels
-    final int screenHeight = tileSize * maxScreenRow; // 576 pixels
+    public final int maxScreenCol = 16;
+    public final int maxScreenRow = 12;
+    public final int screenWidth = tileSize * maxScreenCol; // 768 pixels
+    public final int screenHeight = tileSize * maxScreenRow; // 576 pixels
 
     // FPS (Frame Per Second)
     int FPS = 60;
 
+    TileManager tileM = new TileManager(this);
     KeyHandler keyH = new KeyHandler();
     Thread gameThread; // start and stop
     Player player = new Player(this, keyH);
@@ -110,6 +112,8 @@ public class GamePanel extends JPanel implements Runnable { // this class inheri
     public void paintComponent(Graphics g) { // graphics is pencil
         super.paintComponent(g); // type when create paintComponent method
         Graphics2D g2 = (Graphics2D) g; // convert graph change to 2d graph
+
+        tileM.draw(g2); // make sure draw the background first
 
         player.draw(g2);
 
