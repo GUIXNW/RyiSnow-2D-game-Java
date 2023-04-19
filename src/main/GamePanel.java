@@ -8,6 +8,7 @@ import java.awt.Graphics2D;
 import javax.swing.JPanel;
 
 import entity.Player;
+import object.SuperObject;
 import tile.TileManager;
 
 public class GamePanel extends JPanel implements Runnable { // this class inherites JPanel class
@@ -34,7 +35,9 @@ public class GamePanel extends JPanel implements Runnable { // this class inheri
     KeyHandler keyH = new KeyHandler();
     Thread gameThread; // start and stop
     public CollisionChecker cChecker = new CollisionChecker(this);
+    public AssetSetter aSetter = new AssetSetter(this);
     public Player player = new Player(this, keyH);
+    public SuperObject obj[] = new SuperObject[10];
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight)); // set the size of this class (JPanel)
@@ -43,6 +46,10 @@ public class GamePanel extends JPanel implements Runnable { // this class inheri
         // all the drawing from this component will be done in an offscreen painting buffer; in short, it improves rendering performance
         this.addKeyListener(keyH);
         this.setFocusable(true);
+    }
+
+    public void setupGame() {
+        aSetter.setObject();
     }
 
     public void startGameThread() {
@@ -120,8 +127,17 @@ public class GamePanel extends JPanel implements Runnable { // this class inheri
         super.paintComponent(g); // type when create paintComponent method
         Graphics2D g2 = (Graphics2D) g; // convert graph change to 2d graph
 
+        // TILE
         tileM.draw(g2); // make sure draw the background first
 
+        // OBJECT
+        for (int i = 0; i < obj.length; i++) {
+            if (obj[i] != null) {
+                obj[i].draw(g2, this);
+            }
+        }
+
+        // PLAYER
         player.draw(g2);
 
         g2.dispose();
