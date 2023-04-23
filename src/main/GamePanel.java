@@ -32,7 +32,7 @@ public class GamePanel extends JPanel implements Runnable { // this class inheri
     int FPS = 60;
 
     TileManager tileM = new TileManager(this);
-    KeyHandler keyH = new KeyHandler();
+    KeyHandler keyH = new KeyHandler(this);
     Sound music = new Sound();
     Sound se = new Sound();
     public CollisionChecker cChecker = new CollisionChecker(this);
@@ -43,6 +43,11 @@ public class GamePanel extends JPanel implements Runnable { // this class inheri
     // ENTITY AND OBJECT
     public Player player = new Player(this, keyH);
     public SuperObject obj[] = new SuperObject[10];
+
+    // GAME STATE
+    public int gameState;
+    public final int playState = 1;
+    public final int pauseState = 2;
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight)); // set the size of this class (JPanel)
@@ -57,6 +62,9 @@ public class GamePanel extends JPanel implements Runnable { // this class inheri
         aSetter.setObject();
 
         playMusic(0);
+        stopMusic();
+
+        gameState = playState;
     }
 
     public void startGameThread() {
@@ -126,7 +134,13 @@ public class GamePanel extends JPanel implements Runnable { // this class inheri
 
     // 1 UPDATE: update information such as character positions
     public void update() {
-        player.update();
+        
+        if (gameState == playState) {
+            player.update();
+        }
+        else if (gameState == pauseState) {
+            // nothing
+        }
     }
     
     // 2 DRAW: draw he screen with the updated information
