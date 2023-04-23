@@ -134,6 +134,10 @@ public class GamePanel extends JPanel implements Runnable { // this class inheri
         super.paintComponent(g); // type when create paintComponent method
         Graphics2D g2 = (Graphics2D) g; // convert graph change to 2d graph
 
+        // DEBUG
+        long drawStart = 0;
+        if (keyH.checkDrawTime) drawStart = System.nanoTime();
+
         // TILE
         tileM.draw(g2); // make sure draw the background first
 
@@ -149,6 +153,15 @@ public class GamePanel extends JPanel implements Runnable { // this class inheri
 
         // UI
         ui.draw(g2);
+
+        // DEBUG
+        if (keyH.checkDrawTime) {
+            long drawEnd = System.nanoTime();
+            long passed = drawEnd - drawStart;
+            g2.setColor(Color.white);
+            g2.drawString("Draw Time: " + passed, 10, 400);
+            System.out.println("Draw Time: "+ passed);
+        }
 
         g2.dispose();
     }
