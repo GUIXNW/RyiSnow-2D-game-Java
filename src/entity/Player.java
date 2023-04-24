@@ -58,20 +58,12 @@ public class Player extends Entity{
 
     public void update() {
         if (keyH.upPressed == true || keyH.downPressed == true || 
-                keyH.leftPressed == true || keyH.rightPressed == true) {
+            keyH.leftPressed == true || keyH.rightPressed == true) {
             
-            if (keyH.upPressed == true) {
-                direction = "up";
-            }
-            else if (keyH.downPressed == true) {
-                direction = "down";
-            }
-            else if (keyH.leftPressed == true) {
-                direction = "left";
-            }
-            else if (keyH.rightPressed == true) {
-                direction = "right";
-            }
+            if (keyH.upPressed == true) direction = "up";
+            else if (keyH.downPressed == true) direction = "down";
+            else if (keyH.leftPressed == true) direction = "left";
+            else if (keyH.rightPressed == true) direction = "right";
 
             // CHECK TILE COLLISION
             collisionOn = false;
@@ -100,7 +92,7 @@ public class Player extends Entity{
                 case "right":
                     worldX += speed;
                     break;
-            }
+                }
             }
     
             spriteCounter++;
@@ -110,8 +102,6 @@ public class Player extends Entity{
                 spriteCounter = 0;
             }
         }
-
-        
     }
 
     // after the collision between player and object
@@ -125,8 +115,13 @@ public class Player extends Entity{
     public void interactNPC(int i) {
 
         if (i != 999) {
-            System.out.println("You are hitting an npc!");
+
+            if (gp.keyH.enterPressed == true) {
+                gp.gameState = gp.dialogueState;
+                gp.npc[i].speak();
+            }
         }
+        gp.keyH.enterPressed = false; // release enter keyH
     }
 
     public void draw(Graphics2D g2) {
@@ -137,36 +132,20 @@ public class Player extends Entity{
 
         switch(direction) {
         case "up":
-            if (spriteNum == 1) {
-                image = up1;
-            }
-            if (spriteNum == 2) {
-                image = up2;
-            }
+            if (spriteNum == 1) image = up1;
+            if (spriteNum == 2) image = up2;
             break;
         case "down":
-            if (spriteNum == 1) {
-                image = down1;
-            }
-            if (spriteNum == 2) {
-                image = down2;
-            }
+            if (spriteNum == 1) image = down1;
+            if (spriteNum == 2) image = down2;
             break;
         case "left":
-            if (spriteNum == 1) {
-                image = left1;
-            }
-            if (spriteNum == 2) {
-                image = left2;
-            }
+            if (spriteNum == 1) image = left1;
+            if (spriteNum == 2) image = left2;
             break;
         case "right":
-            if (spriteNum == 1) {
-                image = right1;
-            }
-            if (spriteNum == 2) {
-                image = right2;
-            }
+            if (spriteNum == 1) image = right1;
+            if (spriteNum == 2) image = right2;
             break;
         }
 

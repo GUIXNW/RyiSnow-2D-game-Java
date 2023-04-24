@@ -10,6 +10,7 @@ public class CollisionChecker {
     }
 
     public void checkTile(Entity entity) { // check collision
+
         int entityLeftWorldX = entity.worldX + entity.solidArea.x;
         int entityRightWorldX = entity.worldX + entity.solidArea.x + entity.solidArea.width;
         int entityTopWorldY = entity.worldY + entity.solidArea.y;
@@ -59,6 +60,7 @@ public class CollisionChecker {
     }
 
     public int checkObject(Entity entity, boolean player) { // boolean check if it is player
+
         int index = 999;
 
         for(int i = 0; i < gp.obj.length; i++) {
@@ -184,7 +186,6 @@ public class CollisionChecker {
                 target[i].solidArea.y = target[i].solidAreaDefaultY;
             }
         }
-
         return index;
     }
 
