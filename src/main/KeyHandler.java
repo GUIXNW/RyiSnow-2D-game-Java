@@ -48,17 +48,17 @@ public class KeyHandler implements KeyListener {
                     if (gp.ui.commandNum == 0) {
                         System.out.println("Do some fighter specific stuff!");
                         gp.gameState = gp.playState;
-                        gp.playMusic(0);
+                        // gp.playMusic(0);
                     }
                     else if (gp.ui.commandNum == 1) {
                         System.out.println("Do some thief specific stuff!");
                         gp.gameState = gp.playState;
-                        gp.playMusic(0);
+                        // gp.playMusic(0);
                     }
                     else if (gp.ui.commandNum == 2) {
                         System.out.println("Do some sorcerer specific stuff!");
                         gp.gameState = gp.playState;
-                        gp.playMusic(0);
+                        // gp.playMusic(0);
                     }
                     else if (gp.ui.commandNum == 3) {
                         gp.ui.titleScreenState = 0;
