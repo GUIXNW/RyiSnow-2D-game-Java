@@ -18,7 +18,7 @@ public class Entity {
     public int speed;
 
     public BufferedImage up1, up2, down1, down2, left1, left2, right1, right2; // it describes an image with an accessible buffer of image data
-    public String direction;
+    public String direction = "down"; // object won't change direction
 
     // walk animation
     public int spriteCounter = 0;
@@ -37,6 +37,10 @@ public class Entity {
 
     String dialogues[] = new String[20];
     int dialogueIndex = 0;
+
+    public BufferedImage image, image2, image3;
+    public String name;
+    public boolean collision = false;
 
     public Entity(GamePanel gp) {
         this.gp = gp;
