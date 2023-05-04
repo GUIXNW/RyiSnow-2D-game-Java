@@ -7,6 +7,8 @@ import java.awt.image.BufferedImage;
 
 import main.GamePanel;
 import main.KeyHandler;
+import object.OBJ_Shield_Wood;
+import object.OBJ_Sword_Normal;
 
 
 public class Player extends Entity{
@@ -15,6 +17,7 @@ public class Player extends Entity{
 
     public final int screenX;
     public final int screenY;
+    public boolean attackCanceled = false;
 
     public Player(GamePanel gp, KeyHandler keyH) {
 
@@ -51,8 +54,25 @@ public class Player extends Entity{
         direction = "down";
 
         // PLAYER STATUS
+        level = 1;
         maxLife = 6;
         life = maxLife;
+        strength = 1; // The more strength he has, the more damage he gives.
+        dexterity = 1; // The more dexterity he has, the less damage he receives.
+        exp = 0;
+        nextLevelExp = 5; // How much exp you need to level up;
+        coin = 0;
+        currentWeapon = new OBJ_Sword_Normal(gp);
+        currentShield = new OBJ_Shield_Wood(gp);
+        attack = getAttack(); // The total attack value is decided by strength and weapon.
+        defense = getDefense(); // The total defense value is decided by dexterity and shield.
+    }
+    
+    public int getAttack() {
+        return strength * currentWeapon.attackValue;
+    }
+    public int getDefense() {
+        return dexterity * currentShield.defenseValue;
     }
 
     public void getPlayerImage() {
@@ -81,7 +101,7 @@ public class Player extends Entity{
 
     public void update() {
 
-        if (attacking) { attacking(); }
+        if (attacking) {attacking();}
         else if (keyH.upPressed|| keyH.downPressed || keyH.leftPressed || keyH.rightPressed || keyH.enterPressed) {
             
             if (keyH.upPressed) direction = "up";
@@ -117,7 +137,14 @@ public class Player extends Entity{
                 case "right": worldX += speed; break;
                 }
             }
-            
+
+            if (keyH.enterPressed && !attackCanceled) {
+                gp.playSE(7);
+                attacking = true;
+                spriteCounter = 0;
+            }
+
+            attackCanceled = false;
             gp.keyH.enterPressed = false;
     
             spriteCounter++;
@@ -193,12 +220,10 @@ public class Player extends Entity{
         if (gp.keyH.enterPressed) {
 
             if (i != 999) {
+                
+                attackCanceled = true;
                 gp.gameState = gp.dialogueState;
                 gp.npc[i].speak();
-            }
-            else {
-                gp.playSE(7);
-                attacking = true;
             }
         }
     }
@@ -244,44 +269,44 @@ public class Player extends Entity{
         switch(direction) {
         case "up":
             if (!attacking) {
-                if (spriteNum == 1) { image = up1; }
-                if (spriteNum == 2) { image = up2; }
+                if (spriteNum == 1) {image = up1;}
+                if (spriteNum == 2) {image = up2;}
             }
             else {
                 tempScreenY -= gp.tileSize;
-                if (spriteNum == 1) { image = attackUp1; }
-                if (spriteNum == 2) { image = attackUp2; }
+                if (spriteNum == 1) {image = attackUp1;}
+                if (spriteNum == 2) {image = attackUp2;}
             }
             break;
         case "down":
             if (!attacking) {
-                if (spriteNum == 1) { image = down1; }
-                if (spriteNum == 2) { image = down2; }
+                if (spriteNum == 1) {image = down1;}
+                if (spriteNum == 2) {image = down2;}
             }
             else {
-                if (spriteNum == 1) { image = attackDown1; }
-                if (spriteNum == 2) { image = attackDown2; }
+                if (spriteNum == 1) {image = attackDown1;}
+                if (spriteNum == 2) {image = attackDown2;}
             }
             break;
         case "left":
             if (!attacking) {
-                if (spriteNum == 1) { image = left1; }
-                if (spriteNum == 2) { image = left2; }
+                if (spriteNum == 1) {image = left1;}
+                if (spriteNum == 2) {image = left2;}
             }
             else {
                 tempScreenX -= gp.tileSize;
-                if (spriteNum == 1) { image = attackLeft1; }
-                if (spriteNum == 2) { image = attackLeft2; }
+                if (spriteNum == 1) {image = attackLeft1;}
+                if (spriteNum == 2) {image = attackLeft2;}
             }
             break;
         case "right":
             if (!attacking) {
-                if (spriteNum == 1) { image = right1; }
-                if (spriteNum == 2) { image = right2; }
+                if (spriteNum == 1) {image = right1;}
+                if (spriteNum == 2) {image = right2;}
             }
             else {
-                if (spriteNum == 1) { image = attackRight1; }
-                if (spriteNum == 2) { image = attackRight2; }
+                if (spriteNum == 1) {image = attackRight1;}
+                if (spriteNum == 2) {image = attackRight2;}
             }
             break;
         }
