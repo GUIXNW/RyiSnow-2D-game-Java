@@ -96,11 +96,14 @@ public class Entity {
         gp.cChecker.checkEntity(this, gp.monster);
         boolean contactPlayer = gp.cChecker.checkPlayer(this);
 
-        if (this.type == 2 && contactPlayer) {
+        if (this.type == 2 && contactPlayer) { // monster attack player
             if (!gp.player.invincible) {
                 // we can give damage
                 gp.playSE(6);
-                gp.player.life--;
+
+                int damage = attack - gp.player.defense;
+                damage = (damage < 0) ? 0 : damage;
+                gp.player.life -= damage;
                 gp.player.invincible = true;
             }
         }
